@@ -1,3 +1,4 @@
-create schema OrgStoreSchema;
--- testing
- 
+create schema if not exists OrgStoreSchema;
+
+use OrgStoreSchema;
+
