@@ -8,37 +8,36 @@ use OrgStoreSchema;
 -- to not have a multi-valued column
 create table if not exists Consumer(
 		TransNum int NOT NULL,
-        Item varchar(12) NOT NULL,
         primary key (TransNum)
         );
 	
-create table PRODUCT ( 
+create table if not exists PRODUCT ( 
 	PID varchar(12) not null, 
 	SID varchar(4) not null,
-	Price char,
-	Quantity not null,
-	FOREIGN KEY (SID) REFERENCES STORE (SID)
+	Price decimal(5,2),
+	Quantity int not null,
+	FOREIGN KEY (SID) REFERENCES STORE (SID),
 primary key(PID)
 );
 
 
-create table SUPPLIER ( 
+create table if not exists SUPPLIER ( 
 	SupID varchar(4) not null, 
 	Location char not null, 
-	ProductionRate char
+	ProductionRate char,
 primary key(SupID)
 );
 
 
-create table STORE ( 
+create table if not exists STORE ( 
 	SID varchar(4) not null,
-	S_Name var,
-	Location var,
+	S_Name varchar(45),
+	Location varchar(60),
 primary key(SID)
 );
 
 
-create table EMPLOYEE ( 
+create table if not exists EMPLOYEE ( 
 	Name varchar(50) not null,
 	SSN varchar(9) not null, 
 	Address varchar(50), 
@@ -47,6 +46,19 @@ create table EMPLOYEE (
 	primary key(SSN), 
 	FOREIGN KEY(SID) REFERENCES STORE(SID)
 );
+
+-- ----------------------------------------------------------------------------------------
+-- RELATIONS
+create table if not exists Purchase(
+	TransNum int NOT NULL,
+	Item varchar(12) NOT NULL,
+    foreign key(TransNum) references Comsumer(TransNum)
+);
+
+
+-- ----------------------------------------------------------------------------------------
+-- POPULATIONS
+
 
 insert into EMPLOYEE(
 (Nikomachos Ó Riain, 139506321 , 123 penny lane, 0231),
@@ -179,8 +191,4 @@ insert into EMPLOYEE(
 (Theodore Frank, 856856321 , 994 auron road, 0199),
 (Akamu Hsieh, 835685321 , 995 auron road, 0199),
 (Anamaria Killough, 935623321 , 997 auron road, 0199)
-
 );
--- ----------------------------------------------------------------------------------------
--- RELATIONS
-
