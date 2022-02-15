@@ -19,9 +19,9 @@ primary key(SID)
 );
 
 create table if not exists PRODUCT ( 
-	PID varchar(12) not null,
+	PID varchar(5) not null,
     pName varchar(12) not null,
-	Price decimal(5,2),
+	Price decimal(3,2),
 primary key(PID)
 );
 
@@ -55,6 +55,7 @@ create table if not exists Requires(
 	PID varchar(12) not null,
     ingPID varchar(12) not null, -- ingredient PID
     Amount int,
+    foreign key(ingPID) references Product(PID),
     foreign key(PID) references Product(PID)
 );
 
@@ -365,4 +366,21 @@ insert into Purchase values
 (6025, "65513"),
 (6025, "89144"),
 (6025, "31695");
+
+
+insert into Product values
+
+("62597", "bread", 2.50),
+("59665", "eggs", 0.99),
+("22678", "ham", 5.28),
+("57375", "beef", 9.87),
+("45504", "chicken", 3.75),
+("45250", "squash", 1.50),
+("65513", "lettuce", 3.50),
+("89144", "tomato", 0.75),
+("31695", "milk", 3.50),
+("31966", "cheese", 2.64),
+("74470", "pumpkin", 4.00),
+("38503", "bacon", 5.00),
+("95100", "cauliflower", 3.75);
 
