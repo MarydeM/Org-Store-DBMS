@@ -64,7 +64,7 @@ create table if not exists InStock(
 	PID varchar(12),
     SID varchar(4),
     ExpDate date, -- Expiration Date
-    Amt int, -- amount of this item in stock
+    Amt int check(Amt>0), -- amount of this item in stock
     foreign key(PID) references FARM(PID),
     foreign key(SID) references Store(SID)
 );
