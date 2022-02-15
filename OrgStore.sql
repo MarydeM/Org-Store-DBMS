@@ -18,7 +18,7 @@ create table if not exists STORE (
 primary key(SID)
 );
 
-create table if not exists PRODUCT ( 
+create table if not exists FARM ( 
 	PID varchar(5) not null unique,
     pName varchar(12) not null unique,
 	Price decimal(3,2),
@@ -48,7 +48,7 @@ create table if not exists Purchase(
 	TransNum int NOT NULL,
 	PID varchar(12) NOT NULL,
     foreign key(TransNum) references Consumer(TransNum),
-    foreign key(PID) references Product(PID)
+    foreign key(PID) references FARM(PID)
 );
 
 
@@ -65,7 +65,7 @@ create table if not exists InStock(
     SID varchar(4),
     ExpDate date, -- Expiration Date
     Amt int, -- amount of this item in stock
-    foreign key(PID) references Product(PID),
+    foreign key(PID) references FARM(PID),
     foreign key(SID) references Store(SID)
 );
 -- ---------------------------------------------------------------------------------------
@@ -362,7 +362,7 @@ insert into Purchase values
 (6025, "31695");
 
 
-insert into Product values
+insert into FARM values
 
 ("62597", "bread", 2.50),
 ("59665", "eggs", 0.99),
