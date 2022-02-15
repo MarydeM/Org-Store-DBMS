@@ -21,19 +21,15 @@ primary key(SID)
 create table if not exists PRODUCT ( 
 	PID varchar(12) not null,
     pName varchar(12) not null,
-	SID varchar(4) not null,
 	Price decimal(5,2),
-	Quantity int not null,
-	FOREIGN KEY (SID) REFERENCES STORE (SID),
 primary key(PID)
 );
 
-
-create table if not exists SUPPLIER ( 
-	SupID varchar(4) not null, 
-	Location char not null, 
-	ProductionRate char,
-primary key(SupID)
+create table if not exists Supplier(
+	SupID varchar(5) not null,
+    SupName varchar(45),
+    Location varchar(60),
+    primary key(SupID)
 );
 
 create table if not exists EMPLOYEE ( 
@@ -60,6 +56,18 @@ create table if not exists Requires(
     Amount int,
     foreign key(PID) references Product(PID)
 );
+
+create table if not exists Manages(
+	ManSSN varchar(9) not null, -- Manager SSN
+    SID varchar(4) not null, -- Store ID
+    foreign key(ManSSN) references Employee(SSN),
+    foreign key(SID) references Employee(SID)
+);
+-- ---------------------------------------------------------------------------------------
+-- CONSTRAINTS
+
+
+
 -- ----------------------------------------------------------------------------------------
 -- POPULATIONS
 
@@ -306,7 +314,7 @@ insert into Purchase values
 
 (2421, "bacon"),
 (2421, "beef"),
-(2421, "chicken"
+(2421, "chicken"),
 
 (3221, "squash"),
 (3221, "lettuce"),
