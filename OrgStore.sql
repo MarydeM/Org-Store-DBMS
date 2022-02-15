@@ -7,34 +7,34 @@ use OrgStoreSchema;
 -- There will be a row with the same TransNum for every Item purchased in order to allow us 
 -- to not have a multi-valued column
 create table if not exists Consumer(
-		TransNum int NOT NULL,
+		TransNum int NOT NULL unique,
         primary key (TransNum)
         );
 	
 create table if not exists STORE ( 
-	SID varchar(4) not null,
+	SID varchar(4) not null unique,
 	S_Name varchar(45),
 	Location varchar(60),
 primary key(SID)
 );
 
 create table if not exists PRODUCT ( 
-	PID varchar(5) not null,
-    pName varchar(12) not null,
+	PID varchar(5) not null unique,
+    pName varchar(12) not null unique,
 	Price decimal(3,2),
 primary key(PID)
 );
 
 create table if not exists Supplier(
-	SupID varchar(5) not null,
+	SupID varchar(5) not null unique,
     SupName varchar(45),
     Location varchar(60),
     primary key(SupID)
 );
 
 create table if not exists EMPLOYEE ( 
-	Name varchar(50) not null,
-	SSN varchar(9) not null, 
+	Name varchar(50) not null unique,
+	SSN varchar(9) not null unique, 
 	Address varchar(50), 
 	SID varchar(4) NOT NULL,
 	
@@ -51,16 +51,10 @@ create table if not exists Purchase(
     foreign key(PID) references Product(PID)
 );
 
-create table if not exists Requires(
-	PID varchar(12) not null,
-    ingPID varchar(12) not null, -- ingredient PID
-    Amount int,
-    foreign key(ingPID) references Product(PID),
-    foreign key(PID) references Product(PID)
-);
+
 
 create table if not exists Manages(
-	ManSSN varchar(9) not null, -- Manager SSN
+	ManSSN varchar(9) not null unique, -- Manager SSN
     SID varchar(4) not null, -- Store ID
     foreign key(ManSSN) references Employee(SSN),
     foreign key(SID) references Employee(SID)
