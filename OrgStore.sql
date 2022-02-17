@@ -1,3 +1,4 @@
+drop database orgstoreschema;
 create schema if not exists OrgStoreSchema;
 
 use OrgStoreSchema;
@@ -15,10 +16,10 @@ create table if not exists STORE (
 );
 
 create table if not exists CONSUMER(
-		TransNum varchar(4) NOT NULL unique,
-		SID varchar(4) NOT NULL,
-        primary key (TransNum),
-        foreign key(SID) references STORE(SID)
+	TransNum varchar(4) NOT NULL unique,
+	SID varchar(4) NOT NULL,
+    primary key (TransNum),
+    foreign key(SID) references STORE(SID)
 );
 
 create table if not exists FARM(
@@ -48,7 +49,7 @@ create table if not exists EMPLOYEE (
 -- RELATIONS
 
 create table if not exists Purchase(
-	TransNum int NOT NULL,
+	TransNum varchar(4) NOT NULL,
 	PID varchar(12) NOT NULL,
     foreign key(TransNum) references Consumer(TransNum),
     foreign key(PID) references PRODUCT(PID)
@@ -133,7 +134,7 @@ INSERT INTO PRODUCT values
 	('95100', 'cauliflower', 3.75),
 	('74470', 'pumpkin', 4.00),
 	('62597', 'bread', 2.50),
-	('59665', 'eggs', 0.909),
+	('59665', 'eggs', 0.90),
 	('45504', 'chicken', 3.75),
 	('22678', 'ham', 5.28),
 	('57375', 'beef', 9.87),
