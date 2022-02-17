@@ -68,13 +68,11 @@ create table if not exists InStock(
 );
 
 create table if not exists Supplies(
-	SupID varchar(4) not null,
 	SID varchar(4) not null,
 	PID varchar(12) not null,
     Amt int,
-	foreign key(SupID) references FARM(SupID),
     foreign key(SID) references STORE(SID),
-    foreign key(PID) references FARM(PID)
+    foreign key(PID) references PRODUCT(PID)
 );
 
 -- ----------------------------------------------------------------------------------------
