@@ -6,10 +6,6 @@ use OrgStoreSchema;
 
 -- There will be a row with the same TransNum for every Item purchased in order to allow us 
 -- to not have a multi-valued column
-create table if not exists CONSUMER(
-		TransNum int NOT NULL unique,
-        primary key (TransNum)
-        );
 	
 create table if not exists STORE ( 
 	SID varchar(4) not null unique,
@@ -18,10 +14,12 @@ create table if not exists STORE (
 	primary key(SID)
 );
 
--- create table if not exists PRODUCT( 
--- 	,
--- 	primary key(PID)
--- );
+create table if not exists CONSUMER(
+		TransNum varchar(4) NOT NULL unique,
+		SID varchar(4) NOT NULL,
+        primary key (TransNum),
+        foreign key(SID) references STORE(SID)
+);
 
 create table if not exists FARM(
 	SupID varchar(5) not null unique,
@@ -53,7 +51,7 @@ create table if not exists Purchase(
 	TransNum int NOT NULL,
 	PID varchar(12) NOT NULL,
     foreign key(TransNum) references Consumer(TransNum),
-    foreign key(PID) references FARM(PID)
+    foreign key(PID) references PRODUCT(PID)
 );
 
 create table if not exists Manages(
@@ -90,12 +88,31 @@ INSERT INTO STORE values
 	('0199','True Grocers','678 subway st.');
 
 INSERT INTO CONSUMER values
-	(1023),(1024),(1025),(1026),
-	(1011),(1012),(1021),(1031),
-	(2021),(4021),(2221),(2222),
-	(2421),(3221),(2621),(5221),
-	(8011),(9011),(9221),(9025),
-	(6025);
+	('1023', '0231'),
+	('1024', '0231'),
+	('1025', '0231'),
+	('1026', '0231'),
+	('1011', '0231'),
+
+	('1012', '0232'),
+	('1021', '0232'),
+	('1031', '0232'),
+	('2021', '0232'),
+	('4021', '0232'),
+
+	('2221', '0435'),
+	('2222', '0435'),
+	('2421', '0435'),
+
+	('3221', '0436'),
+	('2621', '0436'),
+	('5221', '0436'),
+	('8011', '0436'),
+
+	('9011', '0199'),
+	('9221', '0199'),
+	('9025', '0199'),
+	('6025', '0199');
 
 INSERT INTO FARM values
 	('7894','USDA Organic','731 arkansas dr.'),
