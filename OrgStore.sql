@@ -467,6 +467,7 @@ insert into Manages values
 	('963193321', '0199');	
 
 Insert into SuppliedTo values 
+<<<<<<< HEAD
 	('0231', '45250' , 2),
 	('0231', '89144' , 3),
 	('0231', '62597' , 2),
@@ -511,8 +512,26 @@ Insert into SuppliedTo values
 -- TRIGGERS
 
 DELIMITER $$
+CREATE TRIGGER lowStock
+AFTER UPDATE ON INSTOCK
+FOR EACH ROW
+BEGIN
+	declare msg varchar(255);
+	IF (Amt <= 1 ) THEN
+		set msg = 'Low Stock';
+		signal sqlstate '45000' set message_text = msg;
+	END IF;
+END
+$$
+DELIMITER ;
+
+
+DELIMITER $$
 CREATE TRIGGER Restock
 AFTER UPDATE ON SuppliedTo
 FOR EACH ROW
 BEGIN
 	UPDATE  
+
+
+
