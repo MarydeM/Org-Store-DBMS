@@ -18,17 +18,18 @@ create table if not exists STORE (
 	primary key(SID)
 );
 
-create table if not exists PRODUCT( 
-	PID varchar(5) not null unique,
-    pName varchar(12) not null unique,
-	Price decimal(3,2),
-	primary key(PID)
-);
+-- create table if not exists PRODUCT( 
+-- 	,
+-- 	primary key(PID)
+-- );
 
 create table if not exists FARM(
 	SupID varchar(5) not null unique,
     SupName varchar(45),
     Location varchar(60),
+    PID varchar(5) not null unique,
+    pName varchar(12) not null unique,
+	Price decimal(3,2)
     primary key(SupID)
 );
 
@@ -97,12 +98,21 @@ INSERT INTO CONSUMER values
 	(6025);
 
 INSERT INTO FARM values
-	('7894','USDA Organic','731 arkansas dr.'),
-	('9658','PacMoore','213 pittsburg ave.'),
-	('5847','OTA','463 newsom rd.'),
-	('3668','IFOAM','829 dexter st.'),
-	('1897','ISOFAR','902 martin dr.'),
-	('1148','Organic Consumers Association','432 california ave.');
+	('7894','USDA Organic','731 arkansas dr.', '45250', 'squash', 1.50),
+	('7894','USDA Organic','731 arkansas dr.', '65513', 'lettuce', 3.50),
+	('7894','USDA Organic','731 arkansas dr.', '89144', 'tomato', 0.75),
+	('7894','USDA Organic','731 arkansas dr.', '95100', 'cauliflower', 3.75),
+	('7894','USDA Organic','731 arkansas dr.', '74470', 'pumpkin', 4.00),
+
+	('9658','PacMoore','213 pittsburg ave.', '62597', 'bread', 2.50),
+	('9658','PacMoore','213 pittsburg ave.', '59665', 'eggs', 0.99),
+	('9658','PacMoore','213 pittsburg ave.', '45504', 'chicken', 3.75),
+
+	('1148','Organic Consumers Association','432 california ave.', '22678', 'ham', 5.28),
+	('1148','Organic Consumers Association','432 california ave.', '57375', 'beef', 9.87),
+	('1148','Organic Consumers Association','432 california ave.', '31695', 'milk', 3.50),
+	('1148','Organic Consumers Association','432 california ave.', '31966', 'cheese', 2.64),
+	('1148','Organic Consumers Association','432 california ave.', '38503', 'bacon', 5.00);
 
 insert into EMPLOYEE values
 	('Nikomachos Riain', '139506321' , '123 penny lane', '0231'),
@@ -235,22 +245,6 @@ insert into EMPLOYEE values
 	('Theodore Frank', '856856321' , '994 auron road', '0199'),
 	('Akamu Hsieh', '835685321' , '995 auron road', '0199'),
 	('Anamaria Killough', '935623321' , '997 auron road', '0199');
-
-insert into PRODUCT values
-
-	('62597', 'bread', 2.50),
-	('59665', 'eggs', 0.99),
-	('22678', 'ham', 5.28),
-	('57375', 'beef', 9.87),
-	('45504', 'chicken', 3.75),
-	('45250', 'squash', 1.50),
-	('65513', 'lettuce', 3.50),
-	('89144', 'tomato', 0.75),
-	('31695', 'milk', 3.50),
-	('31966', 'cheese', 2.64),
-	('74470', 'pumpkin', 4.00),
-	('38503', 'bacon', 5.00),
-	('95100', 'cauliflower', 3.75);
 
 insert into Purchase values
 
