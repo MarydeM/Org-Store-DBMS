@@ -63,7 +63,7 @@ create table if not exists Manages(
 );
 
 create table if not exists InStock(
-	PID varchar(12) not null,
+	PID varchar(5) not null,
     SID varchar(4) not null,
     Amt int check(Amt>0), -- amount of this item in stock
     foreign key(PID) references PRODUCT(PID),
@@ -467,7 +467,6 @@ insert into Manages values
 	('963193321', '0199');	
 
 Insert into SuppliedTo values 
-<<<<<<< HEAD
 	('0231', '45250' , 2),
 	('0231', '89144' , 3),
 	('0231', '62597' , 2),
@@ -527,11 +526,12 @@ DELIMITER ;
 
 
 DELIMITER $$
-CREATE TRIGGER Restock
-AFTER UPDATE ON SuppliedTo
+CREATE TRIGGER reStock
+AFTER INSERT ON SuppliedTo
 FOR EACH ROW
 BEGIN
-	UPDATE  
-
-
-
+	UPDATE InStock
+	SET Amt = (Amt + NEW.Amt)
+	WHERE PID = NEW.PID;
+END $$
+DELIMITER ;
