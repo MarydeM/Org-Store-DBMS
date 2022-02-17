@@ -6,7 +6,7 @@ use OrgStoreSchema;
 
 -- There will be a row with the same TransNum for every Item purchased in order to allow us 
 -- to not have a multi-valued column
-create table if not exists Consumer(
+create table if not exists CONSUMER(
 		TransNum int NOT NULL unique,
         primary key (TransNum)
         );
@@ -43,14 +43,13 @@ create table if not exists EMPLOYEE (
 
 -- ----------------------------------------------------------------------------------------
 -- RELATIONS
+
 create table if not exists Purchase(
 	TransNum int NOT NULL,
 	PID varchar(12) NOT NULL,
     foreign key(TransNum) references Consumer(TransNum),
     foreign key(PID) references FARM(PID)
 );
-
-
 
 create table if not exists Manages(
 	ManSSN varchar(9) not null unique, -- Manager SSN
@@ -60,12 +59,23 @@ create table if not exists Manages(
 );
 
 create table if not exists InStock(
-	PID varchar(12),
-    SID varchar(4),
+	PID varchar(12) not null,
+    SID varchar(4) not null,
     ExpDate date, -- Expiration Date
     Amt int check(Amt>0), -- amount of this item in stock
     foreign key(PID) references FARM(PID),
-    foreign key(SID) references Store(SID)
+    foreign key(SID) references Store(SID),
+    foreign key(ExpDate) references SuppliedBy(ExpDate)
+);
+
+create table if not exists Supplies(
+	SupID varchar(4) not null,
+	SID varchar(4) not null,
+	ExpDate date,
+	PID varchar(12) not null,
+    Amt int,
+	foreign key(SupID) references FARM(SupID),
+    foreign key(SID) references STORE(SID)
 );
 
 -- ----------------------------------------------------------------------------------------
@@ -394,4 +404,25 @@ insert into Purchase values
 	(6025, '65513'),
 	(6025, '89144'),
 	(6025, '31695');
+
+insert into Manages values
+	('139506321', '0231'),
+	('129243521', '0231'),
+	('241567321', '0231'),
+
+	('689723321', '0232'),
+	('883123321', '0232'),
+	('123166321', '0232'),
+
+	('973123321', '0435'),
+	('983123321', '0435'),
+	('673123321', '0435'),
+
+	('121123321', '0436'),
+	('123123325', '0436'),
+	('123453321', '0436'),
+
+	('623423321', '0199'),
+	('123723321', '0199'),
+	('963193321', '0199');	
 
