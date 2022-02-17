@@ -29,7 +29,7 @@ create table if not exists FARM(
     Location varchar(60),
     PID varchar(5) not null unique,
     pName varchar(12) not null unique,
-	Price decimal(3,2)
+	Price decimal(3,2),
     primary key(SupID)
 );
 
@@ -62,21 +62,19 @@ create table if not exists Manages(
 create table if not exists InStock(
 	PID varchar(12) not null,
     SID varchar(4) not null,
-    ExpDate date, -- Expiration Date
     Amt int check(Amt>0), -- amount of this item in stock
     foreign key(PID) references FARM(PID),
-    foreign key(SID) references Store(SID),
-    foreign key(ExpDate) references SuppliedBy(ExpDate)
+    foreign key(SID) references Store(SID)
 );
 
 create table if not exists Supplies(
 	SupID varchar(4) not null,
 	SID varchar(4) not null,
-	ExpDate date,
 	PID varchar(12) not null,
     Amt int,
 	foreign key(SupID) references FARM(SupID),
-    foreign key(SID) references STORE(SID)
+    foreign key(SID) references STORE(SID),
+    foreign key(PID) references FARM(PID)
 );
 
 -- ----------------------------------------------------------------------------------------
@@ -108,11 +106,11 @@ INSERT INTO FARM values
 	('9658','PacMoore','213 pittsburg ave.', '59665', 'eggs', 0.99),
 	('9658','PacMoore','213 pittsburg ave.', '45504', 'chicken', 3.75),
 
-	('1148','Organic Consumers Association','432 california ave.', '22678', 'ham', 5.28),
-	('1148','Organic Consumers Association','432 california ave.', '57375', 'beef', 9.87),
-	('1148','Organic Consumers Association','432 california ave.', '31695', 'milk', 3.50),
-	('1148','Organic Consumers Association','432 california ave.', '31966', 'cheese', 2.64),
-	('1148','Organic Consumers Association','432 california ave.', '38503', 'bacon', 5.00);
+	('1148','Organic Consumers Association', '432 california ave.', '22678', 'ham', 5.28),
+	('1148','Organic Consumers Association', '432 california ave.', '57375', 'beef', 9.87),
+	('1148','Organic Consumers Association', '432 california ave.', '31695', 'milk', 3.50),
+	('1148','Organic Consumers Association', '432 california ave.', '31966', 'cheese', 2.64),
+	('1148','Organic Consumers Association', '432 california ave.', '38503', 'bacon', 5.00);
 
 insert into EMPLOYEE values
 	('Nikomachos Riain', '139506321' , '123 penny lane', '0231'),
