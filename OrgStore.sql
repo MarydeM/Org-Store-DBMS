@@ -142,7 +142,7 @@ INSERT INTO PRODUCT values
 	('31966', 'cheese', 2.64),
 	('38503', 'bacon', 5.00);
 
-insert into EMPLOYEE values
+INSERT INTO EMPLOYEE values
 	('Nikomachos Riain', '139506321' , '123 penny lane', '0231'),
 	('Geneviève Tafani', '129243521' , '124 penny lane', '0231'),
 	('Manana Lémieux', '241567321' , '125 penny lane', '0231'),
@@ -274,7 +274,7 @@ insert into EMPLOYEE values
 	('Akamu Hsieh', '835685321' , '995 auron road', '0199'),
 	('Anamaria Killough', '935623321' , '997 auron road', '0199');
 
-insert into Cultivates values
+INSERT INTO Cultivates values
 	('7894', '45250'),
 	('7894', '65513'),
 	('7894', '89144'),
@@ -291,8 +291,7 @@ insert into Cultivates values
 	('1148', '31966'),
 	('1148', '38503');
 
-
-insert into Purchase values
+INSERT INTO Purchase values
 
 	(1023, '62597'),
 	(1023, '59665'),
@@ -445,7 +444,7 @@ insert into Purchase values
 	(6025, '89144'),
 	(6025, '31695');
 
-insert into Manages values
+INSERT INTO Manages values
 	('139506321', '0231'),
 	('129243521', '0231'),
 	('241567321', '0231'),
@@ -466,7 +465,7 @@ insert into Manages values
 	('123723321', '0199'),
 	('963193321', '0199');	
 
-Insert into SuppliedTo values 
+INSERT INTO SuppliedTo values 
 	('0231', '45250' , 2),
 	('0231', '89144' , 3),
 	('0231', '62597' , 2),
@@ -511,27 +510,36 @@ Insert into SuppliedTo values
 -- TRIGGERS
 
 DELIMITER $$
-CREATE TRIGGER lowStock
-AFTER UPDATE ON INSTOCK
-FOR EACH ROW
-BEGIN
-	declare msg varchar(255);
-	IF (Amt <= 1 ) THEN
-		set msg = 'Low Stock';
-		signal sqlstate '45000' set message_text = msg;
-	END IF;
-END
-$$
+	CREATE TRIGGER lowStock
+	AFTER UPDATE ON INSTOCK
+	FOR EACH ROW
+	BEGIN
+		declare msg varchar(255);
+		IF (Amt <= 1 ) THEN
+			set msg = 'Low Stock';
+			signal sqlstate '45000' set message_text = msg;
+		END IF;
+	END
+	$$
 DELIMITER ;
 
 
 DELIMITER $$
-CREATE TRIGGER reStock
-AFTER INSERT ON SuppliedTo
-FOR EACH ROW
-BEGIN
-	UPDATE InStock
-	SET Amt = (Amt + NEW.Amt)
-	WHERE PID = NEW.PID;
-END $$
+	CREATE TRIGGER reStock
+	AFTER INSERT ON SuppliedTo
+	FOR EACH ROW
+	BEGIN
+		UPDATE InStock
+		SET Amt = (Amt + NEW.Amt)
+		WHERE PID = NEW.PID;
+	END $$
 DELIMITER ;
+
+
+-- --------------------------------------------------------------------------
+-- VIEWS
+
+CREATE VIEW StoreStock AS
+	SELECT s.S_Name, i.PID, i.Amt
+	FROM Store s, InStock i
+	WHERE s.SID = i.SID;
