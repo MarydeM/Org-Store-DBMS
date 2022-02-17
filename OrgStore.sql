@@ -79,6 +79,13 @@ create table if not exists SuppliedTo(
     foreign key(PID) references PRODUCT(PID)
 );
 
+create table if not exists cultivate(
+	SupID varchar(4) not null,
+	PID varchar(12) not null,
+    foreign key(SupID) references FARM(SupID),
+    foreign key(PID) references PRODUCT(PID)
+);
+
 -- ----------------------------------------------------------------------------------------
 -- POPULATIONS
 
