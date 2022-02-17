@@ -67,7 +67,7 @@ create table if not exists InStock(
     foreign key(SID) references Store(SID)
 );
 
-create table if not exists Supplies(
+create table if not exists SuppliedTo(
 	SID varchar(4) not null,
 	PID varchar(12) not null,
     Amt int,
