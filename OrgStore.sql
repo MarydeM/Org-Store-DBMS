@@ -507,3 +507,17 @@ Insert into SuppliedTo values
 ('0199', '22678' , 2),
 ('0199', '57375' , 2),
 ('0199', '31695' , 3);
+
+DELIMITER $$
+CREATE TRIGGER lowStock
+AFTER UPDATE ON INSTOCK
+FOR EACH ROW
+BEGIN
+	declare msg varchar(255);
+	IF (Amt <= 1 ) THEN
+		set msg = 'Low Stock';
+		signal sqlstate '45000' set message_text = msg;
+	END IF;
+END
+$$
+DELIMITER ; 
