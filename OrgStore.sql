@@ -506,7 +506,7 @@ INSERT INTO SuppliedTo values
 	('0199', '57375' , 2),
 	('0199', '31695' , 3);
 	
-	INSERT INTO inStock values
+INSERT INTO InStock values
 	('45250', '0231' , 9),
 	('65513', '0231' , 14),
 	('89144', '0231' , 3),
@@ -581,6 +581,28 @@ INSERT INTO SuppliedTo values
 -- TRIGGERS
 
 DELIMITER $$
+	CREATE TRIGGER reStock
+	AFTER INSERT ON SuppliedTo
+	FOR EACH ROW
+	BEGIN
+		UPDATE InStock
+		SET Amt = (Amt + NEW.Amt)
+		WHERE PID = NEW.PID;
+	END $$
+DELIMITER ;
+
+DELIMITER $$
+	CREATE TRIGGER Transaction
+	AFTER INSERT ON Purchase
+	FOR EACH ROW
+	BEGIN
+		UPDATE InStock
+        SET Amt = (Amt - 1)
+        WHERE PID = new.PID;
+	END $$
+DELIMITER ;
+
+DELIMITER $$
 	CREATE TRIGGER lowStock
 	AFTER UPDATE ON INSTOCK
 	FOR EACH ROW
@@ -594,23 +616,16 @@ DELIMITER $$
 	$$
 DELIMITER ;
 
-
-DELIMITER $$
-	CREATE TRIGGER reStock
-	AFTER INSERT ON SuppliedTo
-	FOR EACH ROW
-	BEGIN
-		UPDATE InStock
-		SET Amt = (Amt + NEW.Amt)
-		WHERE PID = NEW.PID;
-	END $$
-DELIMITER ;
-
-
 -- --------------------------------------------------------------------------
 -- VIEWS
 
 CREATE VIEW StoreStock AS
-	SELECT s.S_Name, i.PID, i.Amt
-	FROM Store s, InStock i
-	WHERE s.SID = i.SID;
+	SELECT s.S_Name, p.pName, i.Amt
+	FROM Store s, Product p, InStock i
+	WHERE s.SID = i.SID and p.PID = i.PID;
+
+CREATE VIEW TransactionMan AS
+	SELECT c.TransNum, s.S_Name, e.Name
+	FROM Consumer c, Store s, Employee e, Manages m
+	WHERE m.SID = s.SID and m.ManSSN = e.SSN 
+		  and c.SID = m.SID;
