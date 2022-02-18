@@ -19,7 +19,7 @@ create table if not exists CONSUMER(
 	TransNum varchar(4) NOT NULL unique,
 	SID varchar(4) NOT NULL,
     primary key (TransNum),
-    foreign key(SID) references STORE(SID)
+    foreign key(SID) references STORE(SID) on delete cascade
 );
 
 create table if not exists FARM(
@@ -42,7 +42,7 @@ create table if not exists EMPLOYEE (
 	Address varchar(50), 
 	SID varchar(4),
 	primary key(SSN), 
-	FOREIGN KEY(SID) REFERENCES STORE(SID)
+	FOREIGN KEY(SID) REFERENCES STORE(SID) on delete cascade
 );
 
 -- ----------------------------------------------------------------------------------------
@@ -51,38 +51,38 @@ create table if not exists EMPLOYEE (
 create table if not exists Purchase(
 	TransNum varchar(4) NOT NULL,
 	PID varchar(12) NOT NULL,
-    foreign key(TransNum) references Consumer(TransNum),
-    foreign key(PID) references PRODUCT(PID)
+    foreign key(TransNum) references Consumer(TransNum) on delete cascade,
+    foreign key(PID) references PRODUCT(PID) on delete cascade
 );
 
 create table if not exists Manages(
 	ManSSN varchar(9) not null unique, -- Manager SSN
     SID varchar(4) not null, -- Store ID
-    foreign key(ManSSN) references Employee(SSN),
-    foreign key(SID) references Employee(SID)
+    foreign key(ManSSN) references Employee(SSN) on delete cascade,
+    foreign key(SID) references Employee(SID) on delete cascade
 );
 
 create table if not exists InStock(
 	PID varchar(5) not null,
     SID varchar(4) not null,
     Amt int check(Amt>0), -- amount of this item in stock
-    foreign key(PID) references PRODUCT(PID),
-    foreign key(SID) references Store(SID)
+    foreign key(PID) references PRODUCT(PID) on delete cascade,
+    foreign key(SID) references Store(SID) on delete cascade
 );
 
 create table if not exists SuppliedTo(
 	SID varchar(4) not null,
 	PID varchar(12) not null,
     Amt int,
-    foreign key(SID) references STORE(SID),
-    foreign key(PID) references PRODUCT(PID)
+    foreign key(SID) references STORE(SID) on delete cascade,
+    foreign key(PID) references PRODUCT(PID) on delete cascade
 );
 
 create table if not exists cultivates(
 	SupID varchar(4) not null,
 	PID varchar(12) not null,
-    foreign key(SupID) references FARM(SupID),
-    foreign key(PID) references PRODUCT(PID)
+    foreign key(SupID) references FARM(SupID) on delete cascade,
+    foreign key(PID) references PRODUCT(PID) on delete cascade
 );
 
 -- ----------------------------------------------------------------------------------------
